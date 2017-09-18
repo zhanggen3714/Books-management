@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% block book_list %}
+    <a class="btn btn-default" href="/index/" role="button" style="float: right">返回</a>
+{% for book in books %}
+    <table class="table table-striped">
+                    <tr>
+                    <th>编号</th>
+                    <th>书名</th>
+                    <th>价格</th>
+                    <th>出版社</th>
+                    <th>出版时间</th>
+                    <th>分类</th>
+                    <th>作者</th>
+                    <th colspan="3" style="text-align: center">操作</th>
+                </tr>
+                    <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ book.title }}</td>
+                    <td>{{ book.price }}</td>
+                    <td>{{ book.publish.name }}</td>
+                    <td>{{ book.date}}</td>
+                    <td>{{ book.classify.category }}</td>
+                    <td>
+                        {% for author in book.author.all %}
+                             {{author.name }}
+                        {% endfor %}
+                    </td>
+                    <td><a href="/addbook/"><button class="btn-info">添加</button></a></td>
+                    <td><a href="/editbook/?id={{ book.id }}"><button class="btn-info">编辑</button></a></td>
+                    <td><a href="/delbook/?id={{book.id }}"><button class="btn-danger">删除</button></a></td>
+                    </tr>
+   {% empty %}
+     <td><h1>抱歉没有查询结果。。。</h1></td>
+  {% endfor %}
+</table>
+{% endblock %}
+</body>
+</html>

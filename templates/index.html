@@ -1,0 +1,84 @@
+{% extends 'frame.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>新华图书馆</title>
+</head>
+<body>
+{% block content %}
+    <div class="container">
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1" >
+            <form action="/query/" method="post">
+               <p> <input type="text" placeholder="请输入书名" name="book">
+                   <input type="submit" class="btn-info" value="Search">
+               </p>
+            </form>
+            <table class="table table-hover">
+                <tr>
+                    <th>编号</th>
+                    <th>书名</th>
+                    <th>价格</th>
+                    <th>出版社</th>
+                    <th>出版时间</th>
+                    <th>分类</th>
+                    <th>作者</th>
+                    <th colspan="3" style="text-align: center">操作</th>
+                </tr>
+                {% block book_list %}
+                {% for book in book_list %}
+                    <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ book.title }}</td>
+                    <td>{{ book.price }}</td>
+                    <td>{{ book.publish.name }}</td>
+                    <td>{{ book.date}}</td>
+                    <td>{{ book.classify.category }}</td>
+                    <td>
+                        {% for author in book.author.all %}
+                             {{author.name }}
+                        {% endfor %}
+                    </td>
+                    <td><a href="/addbook/?id={{ book.id }}"><button class="btn-info">添加</button></a></td>
+                    <td><a href="/editbook/?id={{ book.id }}"><button class="btn-info">编辑</button></a></td>
+                    <td><a href="/delbook/?id={{book.id }}"><button class="btn-danger">删除</button></a></td>
+                    </tr>
+                {% endfor %}
+                {% endblock %}
+
+                </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-9 col-md-offset-4" >
+
+        {% block rows %}
+        {% endblock %}
+        </div>
+    </div>
+</div>
+    <nav aria-label="Page navigation" style="position: fixed;bottom: 5px;right: 50%">
+    <ul class="pagination">
+        {% if book_list.has_previous %}
+            <li><a href="/index/?page={{ book_list.previous_page_number }}">上页 <span
+                    class="sr-only">(current)</span></a></li>
+        {% else %}
+            <li class="disabled"><a href="#">上页</a></li>
+        {% endif %}
+        {% for page in p.page_range %}
+            <li><a href="/index/?page={{ page }}">{{ page }} <span class="sr-only">(current)</span></a></li>
+        {% endfor %}
+        {% if book_list.has_next %}
+            <li><a href="/index/?page={{ book_list.next_page_number }}">下页 <span
+                    class="sr-only">(current)</span></a></li>
+        {% else %}
+            <li class="disabled"><a href="#">下页</a></li>
+        {% endif %}
+
+    </ul>
+</nav>
+{% endblock %}
+</body>
+</html>
+

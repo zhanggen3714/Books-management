@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+{% extends 'base.html' %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>出版社信息</title>
+</head>
+<body>
+{% block book_list %}
+<a class="btn btn-default" href="/index/" role="button" style="float: right">返回</a>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+添加数据分类
+</button>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">添加书籍类</h4>
+      </div>
+      <div class="modal-body">
+          <form >
+                  <div class="form-group">
+                    <input type="email" class="form-control"placeholder="书籍类别" name="category">
+                  </div>
+            </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button type="button" id="add_author" class="btn btn-primary">确定</button>
+      </div>
+    </div>
+  </div>
+</div>
+<table class="table table-hover">
+    <tr>
+        <th>序号</th>
+        <th>类别</th>
+        <th colspan="1" style="text-align: center">操作</th>
+    </tr>
+    {% for categ in book_list  %}
+    <tr>
+    <td>{{ forloop.counter }}</td>
+    <td>{{ categ.category }}</td>
+     <td><a href="/ul/menu/classify/edit/?id={{ categ.id }}"><button class="btn-info">编辑</button></a></td>
+     <td><a href="/ul/menu/classify/del/?id={{categ.id }}"><button class="btn-danger">删除</button></a></td>
+    </tr>
+    {% endfor %}
+</table>
+
+
+
+
+
+
+<nav aria-label="Page navigation" style="position: fixed;bottom: 5px;right: 50%">
+    <ul class="pagination">
+        {% if book_list.has_previous %}
+            <li><a href="/ul/menu/classify/?page={{ book_list.previous_page_number }}">上页 <span
+                    class="sr-only">(current)</span></a></li>
+        {% else %}
+            <li class="disabled"><a href="#">上页</a></li>
+        {% endif %}
+        {% for page in p.page_range %}
+            <li><a href="/ul/menu/classify/?page={{ page }}">{{ page }} <span class="sr-only">(current)</span></a></li>
+        {% endfor %}
+        {% if book_list.has_next %}
+            <li><a href="/ul/menu/classify/?page={{ book_list.next_page_number }}">下页 <span
+                    class="sr-only">(current)</span></a></li>
+        {% else %}
+            <li class="disabled"><a href="#">下页</a></li>
+        {% endif %}
+
+    </ul>
+</nav>
+{% endblock %}
+</body>
+{% block js %}
+    <script>
+        $('#add_author').click(function () {
+           var $classify=$('[name=category]').val()
+
+
+        $.ajax({
+            url:'/ul/menu/classify/add/',
+            type:'POST',
+            data:{'classify':$classify},
+            success:function (data) {
+                if (data=='ok'){window.location.reload()}}
+        })
+        })
+    </script>
+{% endblock %}
+</html>

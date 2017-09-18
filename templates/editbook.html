@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% block book_list %}
+    <form action="/editbook/?id={{ book_obj.id }}" method="post" >
+                  <div class="form-group">
+                   <p> 书名:</p>
+                    <input  class="form-control" id="title" name="title" value={{ book_obj.title }}>
+                  </div>
+                  <div class="form-group">
+                     <p>价格:</p>
+                    <input type="text" class="form-control" id="price" value={{ book_obj.price }} name="price">
+                  </div>
+                  <div class="form-group">
+                    <p> 出版社:</p>
+                      <select name="publish_id">
+                          {% for p in publishs %}
+                          {% if p.id == publish.id %}
+                              <option selected value="{{ publish.id }}">{{ publish.name }} </option>
+                          {% endif %}
+                              <option value="{{ p.id }}">{{ p.name }} </option>
+                          {% endfor %}
+                      </select>
+                  </div>
+                   <div class="form-group">
+                     <p>出版日期:</p>
+                    <input type="text" class="form-control" id="date" name="date" value={{ book_obj.date }}>
+                    </div>
+                    <div class="form-group">
+                    <p> 分类:</p>
+                      <select name="classify_id">
+                          {% for c in classifys %}
+                          {% if c.id == classify.id %}
+                            <option selected value="{{ classify.id}}">{{ classify.category }}</option>
+                          {% endif %}
+                              <option value="{{ c.id }}">{{ c.category }}</option>
+                          {% endfor %}
+                      </select>
+                  </div>
+                 <div class="form-group">
+                    <p> 作者:</p>
+                      <select name="authors_id"multiple="multiple">
+                          {% for a in authors %}
+                              {% if a.id in author_list %}
+                                <option selected value="{{ a.id }}">{{ a.name }}</option>
+                              {%else%}
+                                <option value="{{ a.id }}">{{ a.name }}</option>
+                              {% endif %}
+                          {% endfor %}
+                      </select>
+                  </div>
+                <input type="submit" value="修改">
+                <button id="canel"><a href="/index/">取消</a></button>
+    </form>
+{% endblock %}
+</body>
+</html>

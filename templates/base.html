@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>新华图书馆</title>
+    <script src="/static/jquery-3.2.1.min.js"></script>
+    <script src="/static/dist/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="/static/dist/css/bootstrap.css">
+    <style>
+        .col-md-9{margin-top: 50px }
+        body{background-image: url("/static/8.jpg");
+              background-size: 100%;
+              background-repeat: no-repeat;
+        }
+        #canel{ margin-left: 180px}
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-9 col-md-offset-1" >
+                {% block book_list %}
+                {% endblock %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-9 col-md-offset-4" >
+        {% block rows %}
+        {% endblock %}
+        </div>
+    </div>
+</div>
+</body>
+{% block js %}
+
+{% endblock %}
+</html>

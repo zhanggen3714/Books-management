@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>书籍添加</title>
+    <style>
+
+    </style>
+</head>
+<body>
+{% block book_list %}
+    <form action="/ul/menu/classify/edit/?id={{ classify.id }}" method="post">
+        <div class="form-group">
+            <p>书籍分类:</p>
+            <input class="form-control"  value={{classify.category }} name="category">
+        </div>
+        <input type="submit" value="修改">
+        <button id="canel"><a href="/ul/menu/publish/">取消</a></button>
+    </form>
+{% endblock %}
+</body>
+</html>
